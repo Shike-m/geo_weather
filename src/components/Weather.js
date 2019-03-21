@@ -5,6 +5,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import ChipRaw from "@material-ui/core/Chip";
 import { withStyles } from "@material-ui/core/styles";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import WeatherChart from './WeatherChart';
 
 const cardStyles = theme => ({
   root: {
@@ -18,11 +19,20 @@ const Chip = withStyles(cardStyles)(ChipRaw);
 
 class Weather extends Component {
   componentDidMount() {
-    this.props.onLoad();
+    this.props.onLoad(); 
     this.dataFetching = setInterval(() => { this.props.onLoad(); }, 5000);
   }
   componentWillUnmount() {
     clearInterval(this.dataFetching);
+  }
+
+  //Use PureComponent and immutable also can be the good way.
+  shouldComponentUpdate(nextProps,nextState) {
+    if (this.props.data.consolidated_weather !== nextProps.data.consolidated_weather) {
+      return true;
+    } else {
+      return false;
+      }
   }
 
   drawLine = (data) => {
@@ -51,12 +61,13 @@ class Weather extends Component {
           <Chip style ={{margin:'30px'}}
             label={`Weather in ${name}: ${weather_state_name} and ${temperatureinFahrenheit}°`}
           />
-          <LineChart width={800} height={400} data={this.drawLine(data)}>
+          {/* <LineChart width={800} height={400} data={this.drawLine(data)}>
             <Line type="monotone" dataKey="the_temp" stroke="#8884d8" />
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="applicable_date" />
             <YAxis />
-          </LineChart>
+          </LineChart> */}
+          <WeatherChart data={this.drawLine(data)}/>
         </div>
       );
     }
