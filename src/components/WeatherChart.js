@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis,Tooltip,Legend } from 'recharts';
 
 
 
@@ -14,6 +14,8 @@ class WeatherChart extends Component {
       }
   }
 
+
+
   render() {
     const { data } = this.props;
       return (
@@ -23,6 +25,8 @@ class WeatherChart extends Component {
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="applicable_date" />
             <YAxis />
+            <Tooltip />
+            <Legend />
           </LineChart>
         </div>
       );
